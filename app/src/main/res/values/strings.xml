@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Travel Partner</string>
+    <string name="email_form_hint">Email</string>
+    <string name="password_form_hint">Password</string>
+    <string name="login_btn_txt">Login</string>
+    <string name="or_txt">Or</string>
+    <string name="register_btn_txt">Register</string>
+    <string name="username_form_hint">Username</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
