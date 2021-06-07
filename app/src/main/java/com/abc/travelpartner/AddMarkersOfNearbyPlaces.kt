@@ -5,6 +5,7 @@ import com.google.maps.android.clustering.ClusterManager
 class AddMarkersOfNearbyPlaces(val clusterManager: ClusterManager<MyItem>) {
     private val listMarker: MutableList<MyItem> = arrayListOf()
     fun addMarkers(results: List<ResultsItem>) {
+        removeMarker()
         results.forEach {resultItem->
             val lat = resultItem.geometry?.location?.lat
             val lng = resultItem.geometry?.location?.lng
@@ -13,8 +14,10 @@ class AddMarkersOfNearbyPlaces(val clusterManager: ClusterManager<MyItem>) {
             listMarker.add(item)
         }
         clusterManager.addItems(listMarker)
+        clusterManager.cluster()
     }
     fun removeMarker() {
-        clusterManager.removeItem(listMarker[0])
+        clusterManager.clearItems()
+        clusterManager.cluster()
     }
 }
