@@ -9,8 +9,8 @@ import com.google.maps.android.PolyUtil
 class DrawRoute {
     companion object{
         private val path : MutableList<List<LatLng>> = arrayListOf()
-        fun drawRoute(googleMap: GoogleMap, route: RoutesItem){
-            route.legs?.get(0)?.steps?.forEach({
+        fun drawRoute(googleMap: GoogleMap, route: RoutesItem?){
+            route?.legs?.get(0)?.steps?.forEach({
                 val point = it?.polyline?.points
                 path.add(PolyUtil.decode(point))
             })
