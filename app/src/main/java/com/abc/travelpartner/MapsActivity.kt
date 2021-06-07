@@ -3,6 +3,7 @@ package com.abc.travelpartner
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.clustering.ClusterManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +20,7 @@ import retrofit2.Response
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var clusterManager: ClusterManager<MyItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        clusterManager = ClusterManager(this,mMap)
 
         val amanjiwo = LatLng(-7.632857, 110.200882)
         val borobudur = LatLng(-7.607355, 110.203804)
@@ -60,6 +64,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
                 Toast.makeText(this@MapsActivity, t.message, Toast.LENGTH_SHORT).show()
             }
+        })
+    }
+
+    fun getNearbyPlaces(location: String, type: String) {
+        val client = ApiConfig.getInstance().getNearbyPlaces(location,"500",type,"AIzaSyDs_E55Xkzhs1WkBgFL_50YOZ8ouzKXRuA")
+        client.enqueue(object : Callback<NearbyPlacesResponse>{
+            override fun onResponse(call: Call<NearbyPlacesResponse>, response: retrofit2.Response<NearbyPlacesResponse>) {
+                val nearbyPlaces = response.body()?.results as List<ResultsItem>
+                val addMarker = AddMarkersOfNearbyPlaces(clusterManager)
+                addMarker.addMarkers(nearbyPlaces)
+            }
+
+            override fun onFailure(call: Call<NearbyPlacesResponse>, t: Throwable) {
+                Toast.makeText(this@MapsActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+
         })
     }
 }
