@@ -1,5 +1,6 @@
 package com.abc.travelpartner
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.abc.travelpartner.databinding.ActivityRegisterBinding
@@ -25,6 +26,8 @@ class RegisterActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         binding.btnRegister.setOnClickListener {
             registerUser()
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
         }
     }
 

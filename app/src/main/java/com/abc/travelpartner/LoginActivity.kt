@@ -29,7 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun checkLoggedInState() {
         if(firebaseAuth.currentUser == null) {
-            Toast.makeText(this,"You are Logged In", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
         }else {
             Toast.makeText(this, "You are not Logged In yet", Toast.LENGTH_SHORT).show()
         }
