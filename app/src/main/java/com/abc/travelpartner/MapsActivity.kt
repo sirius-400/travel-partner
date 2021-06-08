@@ -58,16 +58,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         getDirection(amanjiwo,borobudur)
 
-        binding.fabFood.setOnClickListener {
-            listLocations.forEach { location ->
-                getNearbyPlaces(location,"restoran")
-            }
-        }
-
-        binding.fabStore.setOnClickListener {
-            listLocations.forEach { location ->
-                getNearbyPlaces(location,"store")
-            }
+        listLocations.forEach { location ->
+            getNearbyPlaces(location,"restoran")
         }
 
         binding.btnList.setOnClickListener {
