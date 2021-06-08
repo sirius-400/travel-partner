@@ -14,4 +14,6 @@
     <string name="place_name">Place Name</string>
     <string name="img_photo_desc">image of place</string>
     <string name="search_icon_txt">Search Icon</string>
+    <string name="welcome_txt">Welcome to Travel Partner</string>
+    <string name="logo_desc">this is image of logo</string>
 </resources>
