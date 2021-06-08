@@ -13,4 +13,5 @@
     <string name="account_icon">Account</string>
     <string name="place_name">Place Name</string>
     <string name="img_photo_desc">image of place</string>
+    <string name="search_icon_txt">Search Icon</string>
 </resources>
