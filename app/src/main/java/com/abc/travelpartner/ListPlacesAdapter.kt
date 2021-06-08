@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abc.travelpartner.databinding.ItemCardviewBinding
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>() {
     private val mData = ArrayList<Place>()
     private lateinit var binding: ItemCardviewBinding
-    // private var onItemClickCallback: OnItemClickCall
     fun setData(items: ArrayList<Place>){
         mData.clear()
         mData.addAll(items)
@@ -23,7 +21,6 @@ class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>(
             with(binding) {
                 Glide.with(itemView.context)
                     .load(placeItems.photo)
-                    .apply(RequestOptions().override(300, 150))
                     .into(binding.imgPhoto)
                 tvName.text = placeItems.nama
             }
