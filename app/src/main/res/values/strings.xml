@@ -7,4 +7,8 @@
     <string name="register_btn_txt">Register</string>
     <string name="username_form_hint">Username</string>
     <string name="title_activity_maps">Map</string>
+    <string name="fab_food_desc">food floating action button</string>
+    <string name="fab_store_desc">store floating action button</string>
+    <string name="list_btn_txt">See The List</string>
+    <string name="account_icon">Account</string>
 </resources>
