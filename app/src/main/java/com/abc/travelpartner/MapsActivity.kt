@@ -69,6 +69,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 getNearbyPlaces(location,"store")
             }
         }
+
+        binding.btnList.setOnClickListener {
+            val intent = Intent(this, ListPlacesActivity::class.java)
+            intent.putExtra(ListPlacesActivity.LOCATION_EXTRA, listLocations)
+            startActivity(intent)
+        }
     }
 
     private fun addToListLocations(listSteps: List<StepsItem?>) {

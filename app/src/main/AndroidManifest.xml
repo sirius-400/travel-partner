@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelPartner">
-        <activity android:name=".ListPlacesActivity"></activity>
+        <activity android:name=".DetailPlaceActivity"></activity>
+        <activity android:name=".ListPlacesActivity" />
         <activity android:name=".AccountActivity" />
 
         <meta-data
