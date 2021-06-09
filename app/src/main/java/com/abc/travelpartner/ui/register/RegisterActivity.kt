@@ -35,11 +35,9 @@ class RegisterActivity : AppCompatActivity() {
         val password = binding.etPasswordForm.text.toString()
         val username = binding.etUsernameForm.text.toString()
         if(email.isNotEmpty() && password.isNotEmpty()) {
-            binding.progressbar.visibility = View.VISIBLE
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener{
                     if(it.isComplete) {
-                        binding.progressbar.visibility = View.GONE
                         val currentUser = firebaseAuth.currentUser!!
                         val currentUserId = currentUser.uid
                         val userName = username
@@ -51,7 +49,6 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
                 .addOnFailureListener {
-                    binding.progressbar.visibility = View.GONE
                     Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
                 }
         }else{

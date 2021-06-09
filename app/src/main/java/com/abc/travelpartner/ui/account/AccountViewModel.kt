@@ -9,21 +9,20 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AccountViewModel: ViewModel() {
-    private val _userName: MutableLiveData<String>? = null
-    val userName: LiveData<String> = _userName!!
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var userCollection: CollectionReference = db.collection("users")
 
     fun getCurrentUserName(userId: String?, context: Context): LiveData<String> {
+        val _userName = MutableLiveData<String>()
         userCollection.whereEqualTo("userId",userId).get()
                 .addOnSuccessListener {
                     for (document in it.documents){
-                        _userName?.value = document.getString("userName")
+                        _userName.postValue(document.getString("userName"))
                     }
                 }
                 .addOnFailureListener {
                     Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
                 }
-        return userName
+        return _userName
     }
 }

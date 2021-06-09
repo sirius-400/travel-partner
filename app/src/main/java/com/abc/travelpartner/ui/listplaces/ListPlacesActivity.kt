@@ -1,6 +1,5 @@
 package com.abc.travelpartner.ui.listplaces
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,7 +7,6 @@ import android.view.View
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.abc.travelpartner.ui.detailplace.DetailPlaceActivity
 import com.abc.travelpartner.data.entity.Place
 import com.abc.travelpartner.R
 import com.abc.travelpartner.databinding.ActivityListPlacesBinding
@@ -25,7 +23,7 @@ class ListPlacesActivity : AppCompatActivity() {
         setContentView(binding.root)
         adapter = ListPlacesAdapter()
         binding.rvHero.setHasFixedSize(true)
-        viewModel = ViewModelProvider(this).get(ListPlacesViewModel::class.java)
+        viewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())[ListPlacesViewModel::class.java]
         getListPlaces()
     }
 
@@ -65,11 +63,6 @@ class ListPlacesActivity : AppCompatActivity() {
         adapter.setOnItemClickCallback(object: ListPlacesAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Place) {
                 viewModel.incrementVisitors(data,this@ListPlacesActivity)
-                    .observe(this@ListPlacesActivity,{place ->
-                        val intent = Intent(this@ListPlacesActivity, DetailPlaceActivity::class.java)
-                        intent.putExtra(DetailPlaceActivity.EXTRA_PLACE,place)
-                        startActivity(intent)
-                    })
             }
 
         })

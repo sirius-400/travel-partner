@@ -37,7 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        viewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())[MapViewModel::class.java]
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -54,12 +54,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         builder.include(borobudur)
         val bounds = builder.build()
 
-        mMap.addMarker(MarkerOptions().position(magelang).title("Marker in Magelang").icon(
-            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-        ))
-        mMap.addMarker(MarkerOptions().position(borobudur).title("Marker in Borobudur"))
-        val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 0)
-        mMap.animateCamera(cameraUpdate)
+        mMap.setOnMapLoadedCallback(object: GoogleMap.OnMapLoadedCallback{
+            override fun onMapLoaded() {
+                mMap.addMarker(MarkerOptions().position(magelang).title("Marker in Magelang").icon(
+                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+                ))
+                mMap.addMarker(MarkerOptions().position(borobudur).title("Marker in Borobudur"))
+                val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 0)
+                mMap.animateCamera(cameraUpdate)
+            }
+        })
 
         getDirection(magelang,borobudur)
 
@@ -69,6 +73,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, ListPlacesActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finishAffinity()
     }
 
     private fun getDirection(origin: LatLng, destination: LatLng) {

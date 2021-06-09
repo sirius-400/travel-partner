@@ -16,18 +16,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MapViewModel: ViewModel() {
-    private var _route: MutableLiveData<RoutesItem>? = null
-    var route: LiveData<RoutesItem> = _route!!
-
-    private var _nearbyPlaces: MutableLiveData<List<NearbyPlacesResponse>>? = null
-    var nearbyPlaces: LiveData<List<NearbyPlacesResponse>> = _nearbyPlaces!!
-
     fun getDirection(start: String, end: String, context: Context): LiveData<RoutesItem> {
+        val _route = MutableLiveData<RoutesItem>()
         val client = RouteApiConfig.getInstance().getDirection(start,end, BuildConfig.GMP_KEY)
         client.enqueue(object : Callback<RouteResponse> {
             override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
                 if(response.isSuccessful){
-                    _route?.value = response.body()?.routes?.get(0)
+                    _route.postValue(response.body()?.routes?.get(0)!!)
                 }
             }
 
@@ -35,15 +30,16 @@ class MapViewModel: ViewModel() {
                 Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
             }
         })
-        return route
+        return _route
     }
 
     fun getAllNearbyPlaces(): LiveData<List<NearbyPlacesResponse>>{
+        val _nearbyPlaces = MutableLiveData<List<NearbyPlacesResponse>>()
         val client = NearbyPlaceApiConfig.getInstance().getNearbyPlaces()
         client.enqueue(object: Callback<List<NearbyPlacesResponse>>{
             override fun onResponse(call: Call<List<NearbyPlacesResponse>>, response: Response<List<NearbyPlacesResponse>>) {
                 if (response.isSuccessful){
-                    _nearbyPlaces?.value = response.body()
+                    _nearbyPlaces.postValue(response.body()!!)
                 }
             }
 
@@ -52,6 +48,6 @@ class MapViewModel: ViewModel() {
             }
 
         })
-        return nearbyPlaces
+        return _nearbyPlaces
     }
 }

@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
         binding.btnLogin.setOnClickListener {
             loginUser()
@@ -41,14 +42,11 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmailForm.text.toString()
         val password = binding.etPasswordForm.text.toString()
         if(email.isNotEmpty() && password.isNotEmpty()) {
-            binding.progressbar.visibility = View.VISIBLE
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    binding.progressbar.visibility = View.GONE
                     checkLoggedInState()
                 }
                 .addOnFailureListener {
-                    binding.progressbar.visibility = View.GONE
                     Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
                 }
         }else{

@@ -14,15 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
 class ListPlacesViewModel: ViewModel() {
-    private var _listPlace: MutableLiveData<ArrayList<Place>>? = null
-    var listPlace: LiveData<ArrayList<Place>> = _listPlace!!
-    private var _place: MutableLiveData<Place>? = null
-    var place: LiveData<Place> = _place!!
-
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var placeCollection: CollectionReference = db.collection("Places")
 
     fun getListPlaces(context: Context): LiveData<ArrayList<Place>> {
+        val _listPlace = MutableLiveData<ArrayList<Place>>()
         val list = ArrayList<Place>()
         placeCollection.get()
             .addOnSuccessListener {
@@ -30,29 +26,32 @@ class ListPlacesViewModel: ViewModel() {
                     val place = document.toObject(Place::class.java)
                     list.add(place!!)
                 }
-                _listPlace?.value = list
+                _listPlace.postValue(list)
             }
             .addOnFailureListener {
                 Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
-        return listPlace
+        return _listPlace
     }
 
-    fun incrementVisitors(data: Place, context: Context): LiveData<Place>{
+    fun incrementVisitors(data: Place, context: Context){
         val visitorMap = mutableMapOf<String,Long>()
         placeCollection.whereEqualTo("place_id",data.place_id).get()
-            .addOnSuccessListener {querySnapshot ->
-                for (document in querySnapshot.documents) {
-                    val visitor = document.getLong("visitor")
-                    visitorMap["visitor"] = visitor?.inc()!!
-                    placeCollection.document(document.id).set(
-                        visitorMap, SetOptions.merge())
+                .addOnSuccessListener {querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val visitor = document.getLong("visitor")
+                        visitorMap["visitor"] = visitor?.inc()!!
+                        placeCollection.document(document.id).set(
+                                visitorMap, SetOptions.merge())
+                    }
+                    val intent = Intent(context, DetailPlaceActivity::class.java)
+                    intent.putExtra(DetailPlaceActivity.EXTRA_PLACE,data)
+                    context.startActivity(intent)
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(context,it.message,Toast.LENGTH_SHORT)
-                    .show()
-            }
-        return place
+                .addOnFailureListener {
+                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT)
+                            .show()
+                }
+
     }
 }
