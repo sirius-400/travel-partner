@@ -16,4 +16,6 @@
     <string name="search_icon_txt">Search Icon</string>
     <string name="welcome_txt">Welcome to Travel Partner</string>
     <string name="logo_desc">this is image of logo</string>
+    <string name="place_contact">place contact</string>
+    <string name="img_call_desc">this is call icon</string>
 </resources>

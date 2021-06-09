@@ -82,6 +82,7 @@ class ListPlacesActivity : AppCompatActivity() {
                                         visitorMap, SetOptions.merge())
                             }
                             val intent = Intent(this@ListPlacesActivity,DetailPlaceActivity::class.java)
+                            intent.putExtra(DetailPlaceActivity.EXTRA_PLACE,data)
                             startActivity(intent)
                         }
                         .addOnFailureListener {

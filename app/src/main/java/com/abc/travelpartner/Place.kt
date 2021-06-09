@@ -9,7 +9,6 @@ data class Place(
     var contact: String = "",
     var name: String = "",
     var place_id: String = "",
-    var image: String = "",
-    var visitor: Long = 0,
+    var image: String = ""
 ): Parcelable
 
