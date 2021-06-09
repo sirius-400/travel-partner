@@ -14,7 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@color/colorAccent"
-        android:contentDescription="@string/img_photo_desc"/>
+        android:contentDescription="@string/img_photo_desc"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_detail_name"

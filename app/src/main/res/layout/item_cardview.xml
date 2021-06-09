@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             tools:src="@color/colorAccent"
-            android:contentDescription="@string/img_photo_desc" />
+            android:contentDescription="@string/img_photo_desc"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -32,7 +33,7 @@
             android:layout_marginRight="8dp"
             android:fontFamily="sans-serif-black"
             android:layout_alignParentBottom="true"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="@string/place_name" />
