@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:text="Create Account"
+        android:text="@string/create_account_txt"
         android:textSize="30sp"
         android:textColor="#3381f5"
         android:textStyle="bold"/>

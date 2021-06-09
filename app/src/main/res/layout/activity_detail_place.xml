@@ -16,14 +16,6 @@
         android:src="@color/colorAccent"
         android:contentDescription="@string/img_photo_desc"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/img_detail_photo"
-        app:layout_constraintBottom_toTopOf="@+id/tv_detail_name"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_baseline_favorite_border_24"/>
-
     <TextView
         android:id="@+id/tv_detail_name"
         android:layout_width="wrap_content"

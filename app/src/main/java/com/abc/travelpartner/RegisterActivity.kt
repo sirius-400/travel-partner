@@ -3,6 +3,7 @@ package com.abc.travelpartner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.abc.travelpartner.databinding.ActivityRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -26,26 +27,32 @@ class RegisterActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         binding.btnRegister.setOnClickListener {
             registerUser()
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
         }
     }
 
     private fun registerUser() {
         val email = binding.etEmailForm.text.toString()
         val password = binding.etPasswordForm.text.toString()
+        val username = binding.etUsernameForm.text.toString()
         if(email.isNotEmpty() && password.isNotEmpty()) {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(object : OnCompleteListener<AuthResult> {
-                        override fun onComplete(task: Task<AuthResult>) {
-                            if(task.isComplete) {
-                                val currentUser = firebaseAuth.currentUser!!
-                                val currentUserId = currentUser.uid
-                                val userName = "@bambang123"
-                                userCollection.add(User(currentUserId,userName))
-                            }
+                    .addOnCompleteListener{
+                        if(it.isComplete) {
+                            val currentUser = firebaseAuth.currentUser!!
+                            val currentUserId = currentUser.uid
+                            val userName = username
+                            userCollection.add(User(currentUserId,userName))
+                            val intent = Intent(this, MapsActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            finish()
                         }
-                    })
+                    }
+                .addOnFailureListener {
+                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                }
+        }else{
+            Toast.makeText(this,"please input all fields",Toast.LENGTH_SHORT).show()
         }
     }
 }

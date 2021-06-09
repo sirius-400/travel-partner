@@ -28,11 +28,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkLoggedInState() {
-        if(firebaseAuth.currentUser == null) {
+        if(firebaseAuth.currentUser != null) {
             val intent = Intent(this, MapsActivity::class.java)
             startActivity(intent)
-        }else {
-            Toast.makeText(this, "You are not Logged In yet", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -41,7 +40,14 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.etPasswordForm.text.toString()
         if(email.isNotEmpty() && password.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
-            checkLoggedInState()
+                .addOnSuccessListener {
+                    checkLoggedInState()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                }
+        }else{
+            Toast.makeText(this,"please input all field",Toast.LENGTH_SHORT).show()
         }
     }
 
