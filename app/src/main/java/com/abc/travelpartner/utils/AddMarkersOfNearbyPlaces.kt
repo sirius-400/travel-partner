@@ -1,5 +1,6 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.utils
 
+import com.abc.travelpartner.data.response.nearbyplace.NearbyPlacesResponse
 import com.google.maps.android.clustering.ClusterManager
 
 class AddMarkersOfNearbyPlaces(val clusterManager: ClusterManager<MyItem>) {

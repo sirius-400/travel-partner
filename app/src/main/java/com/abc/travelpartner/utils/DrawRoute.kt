@@ -1,6 +1,7 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.utils
 
 import android.graphics.Color
+import com.abc.travelpartner.data.response.route.RoutesItem
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions

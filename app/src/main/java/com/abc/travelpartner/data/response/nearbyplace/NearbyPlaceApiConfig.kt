@@ -1,13 +1,13 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.data.response.nearbyplace
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PlaceApiConfig {
+class NearbyPlaceApiConfig {
     companion object{
-        fun getInstance(): PlaceApiService {
+        fun getInstance(): NearbyPlaceApiService {
             val logginInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                     .addInterceptor(logginInterceptor)
@@ -17,7 +17,7 @@ class PlaceApiConfig {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build()
-            return retrofit.create(PlaceApiService::class.java)
+            return retrofit.create(NearbyPlaceApiService::class.java)
         }
     }
 }

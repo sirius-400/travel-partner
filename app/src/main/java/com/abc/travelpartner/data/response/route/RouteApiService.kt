@@ -1,10 +1,10 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.data.response.route
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+interface RouteApiService {
     @GET("directions/json")
     fun getDirection(
         @Query("origin") origin: String,

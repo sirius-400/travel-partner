@@ -1,4 +1,4 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.utils
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem

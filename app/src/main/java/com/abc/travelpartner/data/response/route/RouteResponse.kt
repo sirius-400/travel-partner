@@ -1,15 +1,15 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.data.response.route
 
 import com.google.gson.annotations.SerializedName
 
 data class RouteResponse(
-    @field:SerializedName("routes")
+        @field:SerializedName("routes")
     val routes: List<RoutesItem?>? = null,
 
-    @field:SerializedName("geocoded_waypoints")
+        @field:SerializedName("geocoded_waypoints")
     val geocodedWaypoints: List<GeocodedWaypointsItem?>? = null,
 
-    @field:SerializedName("status")
+        @field:SerializedName("status")
     val status: String? = null
 )
 
@@ -66,91 +66,91 @@ data class GeocodedWaypointsItem(
 
 data class Bounds(
 
-    @field:SerializedName("southwest")
+        @field:SerializedName("southwest")
     val southwest: Southwest? = null,
 
-    @field:SerializedName("northeast")
+        @field:SerializedName("northeast")
     val northeast: Northeast? = null
 )
 
 data class StepsItem(
 
-    @field:SerializedName("duration")
+        @field:SerializedName("duration")
     val duration: Duration? = null,
 
-    @field:SerializedName("start_location")
+        @field:SerializedName("start_location")
     val startLocation: StartLocation? = null,
 
-    @field:SerializedName("distance")
+        @field:SerializedName("distance")
     val distance: Distance? = null,
 
-    @field:SerializedName("travel_mode")
+        @field:SerializedName("travel_mode")
     val travelMode: String? = null,
 
-    @field:SerializedName("html_instructions")
+        @field:SerializedName("html_instructions")
     val htmlInstructions: String? = null,
 
-    @field:SerializedName("end_location")
+        @field:SerializedName("end_location")
     val endLocation: EndLocation? = null,
 
-    @field:SerializedName("maneuver")
+        @field:SerializedName("maneuver")
     val maneuver: String? = null,
 
-    @field:SerializedName("polyline")
+        @field:SerializedName("polyline")
     val polyline: Polyline? = null
 )
 
 data class RoutesItem(
 
-    @field:SerializedName("summary")
+        @field:SerializedName("summary")
     val summary: String? = null,
 
-    @field:SerializedName("copyrights")
+        @field:SerializedName("copyrights")
     val copyrights: String? = null,
 
-    @field:SerializedName("legs")
+        @field:SerializedName("legs")
     val legs: List<LegsItem?>? = null,
 
-    @field:SerializedName("warnings")
+        @field:SerializedName("warnings")
     val warnings: List<Any?>? = null,
 
-    @field:SerializedName("bounds")
+        @field:SerializedName("bounds")
     val bounds: Bounds? = null,
 
-    @field:SerializedName("overview_polyline")
+        @field:SerializedName("overview_polyline")
     val overviewPolyline: OverviewPolyline? = null,
 
-    @field:SerializedName("waypoint_order")
+        @field:SerializedName("waypoint_order")
     val waypointOrder: List<Any?>? = null
 )
 
 data class LegsItem(
 
-    @field:SerializedName("duration")
+        @field:SerializedName("duration")
     val duration: Duration? = null,
 
-    @field:SerializedName("start_location")
+        @field:SerializedName("start_location")
     val startLocation: StartLocation? = null,
 
-    @field:SerializedName("distance")
+        @field:SerializedName("distance")
     val distance: Distance? = null,
 
-    @field:SerializedName("start_address")
+        @field:SerializedName("start_address")
     val startAddress: String? = null,
 
-    @field:SerializedName("end_location")
+        @field:SerializedName("end_location")
     val endLocation: EndLocation? = null,
 
-    @field:SerializedName("end_address")
+        @field:SerializedName("end_address")
     val endAddress: String? = null,
 
-    @field:SerializedName("via_waypoint")
+        @field:SerializedName("via_waypoint")
     val viaWaypoint: List<Any?>? = null,
 
-    @field:SerializedName("steps")
+        @field:SerializedName("steps")
     val steps: List<StepsItem?>? = null,
 
-    @field:SerializedName("traffic_speed_entry")
+        @field:SerializedName("traffic_speed_entry")
     val trafficSpeedEntry: List<Any?>? = null
 )
 

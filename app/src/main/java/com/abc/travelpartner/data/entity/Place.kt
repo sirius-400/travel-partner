@@ -1,4 +1,4 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.data.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -1,4 +1,4 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.ui.map
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,23 +6,27 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.abc.travelpartner.*
 import com.abc.travelpartner.databinding.ActivityMapsBinding
+import com.abc.travelpartner.ui.account.AccountActivity
+import com.abc.travelpartner.ui.listplaces.ListPlacesActivity
+import com.abc.travelpartner.utils.AddMarkersOfNearbyPlaces
+import com.abc.travelpartner.utils.DrawRoute
+import com.abc.travelpartner.utils.MyItem
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.ClusterManager
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<MyItem>
     private lateinit var addMarker: AddMarkersOfNearbyPlaces
+    private lateinit var viewModel: MapViewModel
 
     private lateinit var binding: ActivityMapsBinding
 
@@ -33,6 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -70,38 +75,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val start = origin.latitude.toString() +","+ origin.longitude.toString()
         val end = destination.latitude.toString() +","+ destination.longitude.toString()
         binding.progressbar.visibility = View.VISIBLE
-        val client = ApiConfig.getInstance().getDirection(start,end,BuildConfig.GMP_KEY)
-        client.enqueue(object : Callback<RouteResponse> {
-            override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
-                if(response.isSuccessful){
-                    binding.progressbar.visibility = View.GONE
-                    val route = response.body()?.routes?.get(0)
-                    DrawRoute.drawRoute(mMap,route)
-                }
-            }
-
-            override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
-                Toast.makeText(this@MapsActivity, t.message, Toast.LENGTH_SHORT).show()
-            }
+        viewModel.getDirection(start,end,this).observe(this,{route->
+            binding.progressbar.visibility = View.GONE
+            DrawRoute.drawRoute(mMap, route)
         })
     }
 
     fun getNearbyPlaces() {
         binding.progressbar.visibility = View.VISIBLE
-        val client = PlaceApiConfig.getInstance().getDirection()
-        client.enqueue(object: Callback<List<NearbyPlacesResponse>>{
-            override fun onResponse(call: Call<List<NearbyPlacesResponse>>, response: Response<List<NearbyPlacesResponse>>) {
-                if (response.isSuccessful){
-                    binding.progressbar.visibility = View.GONE
-                    val result = response.body()
-                    addMarker.addMarkers(result)
-                }
-            }
-
-            override fun onFailure(call: Call<List<NearbyPlacesResponse>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
+        viewModel.getAllNearbyPlaces().observe(this,{result->
+            binding.progressbar.visibility = View.GONE
+            addMarker.addMarkers(result)
         })
     }
 

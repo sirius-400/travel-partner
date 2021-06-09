@@ -1,19 +1,19 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.data.response.nearbyplace
 
 import com.google.gson.annotations.SerializedName
 
 data class NearbyPlacesResponse(
 
-    @field:SerializedName("name")
+        @field:SerializedName("name")
     val name: String? = null,
 
-    @field:SerializedName("place_id")
+        @field:SerializedName("place_id")
     val placeId: String? = null,
 
-    @field:SerializedName("location")
+        @field:SerializedName("location")
     val location: Location? = null,
 
-    @field:SerializedName("forecast")
+        @field:SerializedName("forecast")
     val forecast: List<Double?>? = null
 )
 

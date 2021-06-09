@@ -1,7 +1,8 @@
-package com.abc.travelpartner
+package com.abc.travelpartner.ui.detailplace
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.abc.travelpartner.data.entity.Place
 import com.abc.travelpartner.databinding.ActivityDetailPlaceBinding
 import com.bumptech.glide.Glide
 
