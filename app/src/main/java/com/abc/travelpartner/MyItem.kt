@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 class MyItem(
+    id: String,
     lat: Double,
     lng: Double,
     title: String,
@@ -12,6 +13,7 @@ class MyItem(
     private val position: LatLng
     private val title: String
     private val snippet: String
+    private val id: String
 
     override fun getPosition(): LatLng = position
 
@@ -23,5 +25,6 @@ class MyItem(
         position = LatLng(lat, lng)
         this.title = title
         this.snippet = snippet
+        this.id = id
     }
 }

@@ -11,12 +11,4 @@ interface ApiService {
         @Query("destination") destination: String,
         @Query("key") key: String
     ): Call<RouteResponse>
-
-    @GET("place/nearbysearch/json")
-    fun getNearbyPlaces(
-        @Query("location") location: String,
-        @Query("radius") radius: String,
-        @Query("type") type: String,
-        @Query("key") key: String
-    ): Call<NearbyPlacesResponse>
 }

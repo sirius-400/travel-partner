@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.abc.travelpartner.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,7 +25,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<MyItem>
     private lateinit var addMarker: AddMarkersOfNearbyPlaces
-    private var listLocations: ArrayList<String> = arrayListOf()
 
     private lateinit var binding: ActivityMapsBinding
 
@@ -58,39 +58,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         getDirection(amanjiwo,borobudur)
 
-        listLocations.forEach { location ->
-            getNearbyPlaces(location,"restoran")
-        }
+        getNearbyPlaces()
 
         binding.btnList.setOnClickListener {
             val intent = Intent(this, ListPlacesActivity::class.java)
-            intent.putExtra(ListPlacesActivity.LOCATION_EXTRA, listLocations)
             startActivity(intent)
-        }
-    }
-
-    private fun addToListLocations(listSteps: List<StepsItem?>) {
-        val center = (listSteps.size / 2).toInt()
-        val start = (center / 2).toInt()
-        val end = listSteps.size - start
-
-        listLocations.let {
-            it.add(listSteps[start]?.endLocation?.lat?.toString() + "," + listSteps[start]?.endLocation?.lng?.toString())
-            it.add(listSteps[center]?.endLocation?.lat?.toString() + "," + listSteps[center]?.endLocation?.lng?.toString())
-            it.add(listSteps[end]?.endLocation?.lat?.toString() + "," + listSteps[end]?.endLocation?.lng?.toString())
         }
     }
 
     private fun getDirection(origin: LatLng, destination: LatLng) {
         val start = origin.latitude.toString() +","+ origin.longitude.toString()
         val end = destination.latitude.toString() +","+ destination.longitude.toString()
+        binding.progressbar.visibility = View.VISIBLE
         val client = ApiConfig.getInstance().getDirection(start,end,BuildConfig.GMP_KEY)
         client.enqueue(object : Callback<RouteResponse> {
             override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
                 if(response.isSuccessful){
+                    binding.progressbar.visibility = View.GONE
                     val route = response.body()?.routes?.get(0)
-                    val steps = route?.legs?.get(0)?.steps
-                    addToListLocations(steps!!)
                     DrawRoute.drawRoute(mMap,route)
                 }
             }
@@ -101,16 +86,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
     }
 
-    fun getNearbyPlaces(location: String, type: String) {
-        val client = ApiConfig.getInstance().getNearbyPlaces(location,"500",type,BuildConfig.GMP_KEY)
-        client.enqueue(object : Callback<NearbyPlacesResponse>{
-            override fun onResponse(call: Call<NearbyPlacesResponse>, response: retrofit2.Response<NearbyPlacesResponse>) {
-                val nearbyPlaces = response.body()?.results as List<ResultsItem>
-                addMarker.addMarkers(nearbyPlaces)
+    fun getNearbyPlaces() {
+        binding.progressbar.visibility = View.VISIBLE
+        val client = PlaceApiConfig.getInstance().getDirection()
+        client.enqueue(object: Callback<List<NearbyPlacesResponse>>{
+            override fun onResponse(call: Call<List<NearbyPlacesResponse>>, response: Response<List<NearbyPlacesResponse>>) {
+                if (response.isSuccessful){
+                    binding.progressbar.visibility = View.GONE
+                    val result = response.body()
+                    addMarker.addMarkers(result)
+                }
             }
 
-            override fun onFailure(call: Call<NearbyPlacesResponse>, t: Throwable) {
-                Toast.makeText(this@MapsActivity, t.message, Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<List<NearbyPlacesResponse>>, t: Throwable) {
+                TODO("Not yet implemented")
             }
 
         })

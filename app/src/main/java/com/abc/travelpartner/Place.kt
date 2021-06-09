@@ -1,6 +1,9 @@
 package com.abc.travelpartner
 
 data class Place(
-    var nama: String,
-    var photo: String,
+    var id: String = "",
+    var contact: String = "",
+    var name: String = "",
+    var image: String = "",
+    var visitor: Long = -1,
 )

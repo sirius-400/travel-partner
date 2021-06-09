@@ -20,9 +20,9 @@ class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>(
         fun bind(placeItems: Place) {
             with(binding) {
                 Glide.with(itemView.context)
-                    .load(placeItems.photo)
+                    .load(placeItems.image)
                     .into(binding.imgPhoto)
-                tvName.text = placeItems.nama
+                tvName.text = placeItems.name
             }
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context,DetailPlaceActivity::class.java)
