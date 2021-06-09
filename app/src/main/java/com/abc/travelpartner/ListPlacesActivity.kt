@@ -1,5 +1,6 @@
 package com.abc.travelpartner
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.abc.travelpartner.databinding.ActivityListPlacesBinding
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 class ListPlacesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListPlacesBinding
@@ -56,12 +58,38 @@ class ListPlacesActivity : AppCompatActivity() {
                         val place = document.toObject(Place::class.java)
                         list.add(place!!)
                     }
-                    adapter.setData(list)
-                    binding.rvHero.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.rvHero.adapter = adapter
+                    showRecylerList(list)
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
+    }
+
+    private fun showRecylerList(list: ArrayList<Place>) {
+        adapter.setData(list)
+        binding.rvHero.layoutManager = LinearLayoutManager(applicationContext)
+        binding.rvHero.adapter = adapter
+
+        adapter.setOnItemClickCallback(object: ListPlacesAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: Place) {
+                val visitorMap = mutableMapOf<String,Long>()
+                placeCollection.whereEqualTo("place_id",data.place_id).get()
+                        .addOnSuccessListener {querySnapshot ->
+                            for (document in querySnapshot.documents) {
+                                val visitor = document.getLong("visitor")
+                                visitorMap["visitor"] = visitor?.inc()!!
+                                placeCollection.document(document.id).set(
+                                        visitorMap, SetOptions.merge())
+                            }
+                            val intent = Intent(this@ListPlacesActivity,DetailPlaceActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this@ListPlacesActivity,it.message,Toast.LENGTH_SHORT)
+                                    .show()
+                        }
+            }
+
+        })
     }
 }

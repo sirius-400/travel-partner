@@ -13,7 +13,7 @@ class PlaceApiConfig {
                     .addInterceptor(logginInterceptor)
                     .build()
             val retrofit = Retrofit.Builder()
-                    .baseUrl("https://asia-southes2-bangkit-capstone-400.cloudfunctions.net/")
+                    .baseUrl("https://asia-southeast2-bangkit-capstone-400.cloudfunctions.net/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build()

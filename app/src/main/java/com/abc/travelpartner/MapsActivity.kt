@@ -12,9 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.ClusterManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,19 +42,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnMarkerClickListener(clusterManager)
         addMarker = AddMarkersOfNearbyPlaces(clusterManager)
 
-        val amanjiwo = LatLng(-7.632857, 110.200882)
+        val magelang = LatLng(-7.479734, 110.217697)
         val borobudur = LatLng(-7.607355, 110.203804)
         val builder = LatLngBounds.builder()
-        builder.include(amanjiwo)
+        builder.include(magelang)
         builder.include(borobudur)
         val bounds = builder.build()
 
-        mMap.addMarker(MarkerOptions().position(amanjiwo).title("Marker in Amanjiwo"))
+        mMap.addMarker(MarkerOptions().position(magelang).title("Marker in Magelang").icon(
+            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+        ))
         mMap.addMarker(MarkerOptions().position(borobudur).title("Marker in Borobudur"))
         val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 0)
         mMap.animateCamera(cameraUpdate)
 
-        getDirection(amanjiwo,borobudur)
+        getDirection(magelang,borobudur)
 
         getNearbyPlaces()
 

@@ -11,6 +11,12 @@ import com.bumptech.glide.Glide
 class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>() {
     private val mData = ArrayList<Place>()
     private lateinit var binding: ItemCardviewBinding
+    private var onItemClickCallback: OnItemClickCallback? = null
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     fun setData(items: ArrayList<Place>){
         mData.clear()
         mData.addAll(items)
@@ -25,8 +31,7 @@ class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>(
                 tvName.text = placeItems.name
             }
             itemView.setOnClickListener {
-                val intent = Intent(itemView.context,DetailPlaceActivity::class.java)
-                itemView.context.startActivity(intent)
+                onItemClickCallback?.onItemClicked(placeItems)
             }
         }
     }
@@ -41,4 +46,8 @@ class ListPlacesAdapter: RecyclerView.Adapter<ListPlacesAdapter.ListViewHolder>(
     }
 
     override fun getItemCount(): Int = mData.size
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: Place)
+    }
 }
